@@ -22,7 +22,7 @@ async function run() {
 
         const productsCollection = client.db('cycle_parts').collection('products');
         const usersCollection = client.db('cycle_parts').collection('users');
-        const ordersCollection = client.db('cycle_parts').collection('orders');
+        const reviewsCollection = client.db('cycle_parts').collection('reviews');
 
 
         //get all products from database
@@ -41,7 +41,7 @@ async function run() {
             res.send(singleProduct);
         });
 
-        //post data
+        //post user purchase data
         app.post('/users', async (req, res) => {
             const newUser = req.body;
             const result = await usersCollection.insertOne(newUser);
@@ -52,6 +52,21 @@ async function run() {
         app.get('/users', async (req, res) => {
             const query = {};
             const cursor = usersCollection.find(query);
+            const users = await cursor.toArray();
+            res.send(users);
+        });
+
+        //post user review
+        app.post('/reviews', async (req, res) => {
+            const newUser = req.body;
+            const result = await reviewsCollection.insertOne(newUser);
+            res.send(result);
+        });
+
+        //get all reviews from database
+        app.get('/reviews', async (req, res) => {
+            const query = {};
+            const cursor = reviewsCollection.find(query);
             const users = await cursor.toArray();
             res.send(users);
         });
