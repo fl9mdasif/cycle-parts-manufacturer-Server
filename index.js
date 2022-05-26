@@ -24,7 +24,6 @@ async function run() {
         const usersCollection = client.db('cycle_parts').collection('users');
         const reviewsCollection = client.db('cycle_parts').collection('reviews');
 
-
         //get all products from database
         app.get('/product', async (req, res) => {
             const query = {};
@@ -54,6 +53,21 @@ async function run() {
             const cursor = usersCollection.find(query);
             const users = await cursor.toArray();
             res.send(users);
+        });
+
+        // get user order data
+        app.get('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const singleProduct = await usersCollection.findOne(query);
+            res.send(singleProduct);
+        });
+        //delete product
+        app.delete('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await usersCollection.deleteOne(query);
+            res.send(result);
         });
 
         //post user review
