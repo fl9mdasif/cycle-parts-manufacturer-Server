@@ -81,8 +81,8 @@ async function run() {
 
         //post user  review
         app.post('/reviews', async (req, res) => {
-            const newUser = req.body;
-            const result = await reviewsCollection.insertOne(newUser);
+            const newReview = req.body;
+            const result = await reviewsCollection.insertOne(newReview);
             res.send(result);
         });
 
@@ -91,8 +91,8 @@ async function run() {
         app.get('/reviews', async (req, res) => {
             const query = {};
             const cursor = reviewsCollection.find(query);
-            const users = await cursor.toArray();
-            res.send(users);
+            const review = await cursor.toArray();
+            res.send(review);
         });
 
         // post products to database
