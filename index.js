@@ -103,17 +103,16 @@ async function run() {
         });
 
 
-
-
     }
     finally {
+
 
     }
 }
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-    res.send('Hello Cycle parts')
+    res.send('Hello from Cycle parts')
 })
 
 app.listen(port, () => {
