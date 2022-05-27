@@ -116,5 +116,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`listening Cycle parts  ${port}`)
+    console.log(`listening to Cycle parts  ${port}`)
 })
