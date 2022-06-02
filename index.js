@@ -8,7 +8,8 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 // DB_USER=cycle_admin
 // DB_PASS=vuR550zUZSMZliQc
 
-app.use(cors())
+// app.use(cors())
+app.use(cors({ origin: "https://cycle-parts-hut.web.app" }))
 app.use(express.json())
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.b55ed.mongodb.net/?retryWrites=true&w=majority`;
@@ -24,6 +25,8 @@ async function run() {
         const usersCollection = client.db('cycle_parts').collection('users');
         const reviewsCollection = client.db('cycle_parts').collection('reviews');
         const userProfileCollection = client.db('cycle_parts').collection('usersprofile');
+
+
 
         //get all products from database
         app.get('/product', async (req, res) => {
@@ -84,6 +87,19 @@ async function run() {
             const result = await usersCollection.deleteOne(query);
             res.send(result);
         });
+
+        //update user profile
+        app.put('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const user = req.body;
+            const filter = { eamil: email }
+            const options = { upsert: true }
+            const updateDoc = {
+                $set: user,
+            };
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
 
         //post user myprofile data
         app.post('/usersprofile', async (req, res) => {
